@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESPotifICE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+<div class="bg-white h-screen overflow-y-hidden">
+    <!-- Header -->
+    <header class="absolute inset-x-0 top-0 z-50">
+        <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <div class="flex lg:flex-1">
+                <a href="#" class="-m-1.5 p-1.5">
+                <span class="sr-only">Your Company</span>
+                <img class="h-8 w-auto" src="https://raw.githubusercontent.com/ice-efrei/espotifice/main/src/web/assets/logoIceCarreClair.svg" alt="">
+                </a>
+            </div>
+            <div class="flex lg:hidden">
+                <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400" id="open-mobile-menu">
+                <span class="sr-only">Open main menu</span>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+                </button>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-12">
+                <a href="https://www.instagram.com/ice_efrei/" class="text-sm font-semibold leading-6 text-white">Instagram</a>
+                <a href="https://www.instagram.com/ice_efrei/" class="text-sm font-semibold leading-6 text-white">Discord</a>
+                <a href="https://www.instagram.com/ice_efrei/" class="text-sm font-semibold leading-6 text-white">LinkedIn</a>
+                <a href="https://www.instagram.com/ice_efrei/" class="text-sm font-semibold leading-6 text-white">GitHub</a>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                <a href="#" class="login-link text-sm font-semibold leading-6 text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+            </div>
+        </nav>
+        <!-- Mobile menu, show/hide based on menu open state. -->
+        <div class="lg:hidden" role="dialog" aria-modal="true" id="mobile-menu">
+            <!-- Background backdrop, show/hide based on slide-over state. -->
+            <div class="fixed inset-0 z-50"></div>
+            <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <div class="flex items-center justify-between">
+                <a href="#" class="-m-1.5 p-1.5">
+                    <span class="sr-only">Your Company</span>
+                    <img class="h-8 w-auto" src="https://raw.githubusercontent.com/ice-efrei/espotifice/main/src/web/assets/logoIceCarreFonce.svg" alt="">
+                </a>
+                <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" id="close-mobile-menu">
+                    <span class="sr-only">Close menu</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                </div>
+                <div class="mt-6 flow-root">
+                <div class="-my-6 divide-y divide-gray-500/10">
+                    <div class="space-y-2 py-6">
+                        <a href="https://www.instagram.com/ice_efrei/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Instagram</a>
+                        <a href="https://www.instagram.com/ice_efrei/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Discord</a>
+                        <a href="https://www.instagram.com/ice_efrei/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">LinkedIn</a>
+                        <a href="https://www.instagram.com/ice_efrei/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">GitHub</a>
+                    </div>
+                    <div class="py-6">
+                    <a href="#" class="login-link -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in to Spotify (ESPotifyAPI)</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="success_modal" class="rounded-md bg-green-50 p-4 absolute top-10 left-1/2 -translate-x-[50%] z-[100] hidden">
+        <div class="flex">
+            <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+            </svg>
+            </div>
+            <div class="ml-3">
+            <p class="text-sm font-medium text-green-800">Successfully uploaded</p>
+            </div>
+            <div class="ml-auto pl-3">
+            <div class="-mx-1.5 -my-1.5">
+                <button type="button" id="success_modal_dismiss" class="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
+                <span class="sr-only">Dismiss</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                </svg>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+             
+    <div id="error_modal" class="rounded-md bg-red-50 p-4 absolute top-10 left-1/2 -translate-x-[50%] z-[100] hidden">
+        <div class="flex">
+            <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+            </svg>
+            </div>
+            <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">Error while treating the response, exit code :</h3>
+            <div class="mt-2 text-sm text-red-700">
+                <ul role="list" class="list-disc space-y-1 pl-5">
+                <li id="exit_code_error"></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+          
+
+    <main>
+        <!-- Hero section -->
+        <div class="relative isolate h-screen overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
+        <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+            <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl py-32">
+            <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+                <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
+                Rejoins ICE EFREI directement sur assoconnect, au Fab-Lab ou en E104.  <a href="#" class="font-semibold text-white"><span class="absolute inset-0" aria-hidden="true"></span>Join now <span aria-hidden="true">&rarr;</span></a>
+                </div>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">ESPotifICE ton compagnon Spotify</h1>
+                <p class="mt-6 text-lg leading-8 text-gray-300">Le projet ESPotifICE, développé par l'EFREI ICE, combine l'ESP32 et Spotify pour afficher les chansons en cours sur un écran TFT. L'API Spotify est gérée via ESPAsyncWebServer. L'écran TFT, mis en œuvre avec TFT_eSPI, affiche les détails de la piste, artiste et l'image de l'album. Les données sont actualisées régulièrement, maintenant l'affichage synchronisé avec la musique. </p>
+                <div class="mt-10 flex items-center justify-center gap-x-6">
+                <a href="#" class="login-link rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Connecte toi à Spotify</a>
+                <a href="#" class="text-sm font-semibold leading-6 text-white">Lien projet <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+            <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+        </div>
+    </main>
+
+    <footer>
+        <script>
+            function GetURLParameter(sParam)
+            {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) 
+                    {
+                        return sParameterName[1];
+                    }
+                }
+            }
+            
+            let baseUrl = "https://accounts.spotify.com/authorize";
+            let response_type = "code"
+            let client_id = GetURLParameter("client_id");
+            let scope = GetURLParameter("scope");
+            let redirect_uri = GetURLParameter("redirect_uri");
+            let state = GetURLParameter("state");
+            let code = GetURLParameter("code");
+
+            if (redirect_uri){
+                localStorage.setItem("redirect_uri", redirect_uri);
+            }
+
+            // use built in js to create a url
+            let url = new URL(baseUrl);
+            url.searchParams.append("response_type", response_type);
+            url.searchParams.append("client_id", client_id);
+            url.searchParams.append("scope", scope);
+            url.searchParams.append("redirect_uri", "https://espotifice.ice-efrei.fr");
+            if (state != null) {
+                url.searchParams.append("state", state);
+            }
+
+            // set login url for all login links on page
+            let loginLinks = document.getElementsByClassName("login-link");
+            for (let i = 0; i < loginLinks.length; i++) {
+                loginLinks[i].href = url;
+            }
+
+            if (code){
+                console.log(code);
+                let redirect_uri = localStorage.getItem("redirect_uri");
+                console.log(redirect_uri);
+                let url = new URL(redirect_uri);
+                url.searchParams.append("code", code);
+                window.location.replace(url);
+            }else{
+                console.log("no code");
+            }
+        </script>
+        <script>
+            const closeModal = (modal_id) => {
+                document.getElementById(modal_id).classList.add("hidden");
+            }
+            const openModal = (modal_id) => {
+                document.getElementById(modal_id).classList.remove("hidden");
+                document.getElementById(modal_id + "_dismiss").addEventListener("click", () => {
+                    closeModal(modal_id);
+                });
+                setTimeout(() => {
+                    closeModal(modal_id);
+                }, 5000);
+            }
+
+            let show_dialog = GetURLParameter("show_dialog");
+
+            switch (show_dialog) {
+                case "success":
+                    openModal("success_modal");
+                    break;
+                case "error":
+                    document.getElementById("exit_code_error").innerHTML = GetURLParameter("error");
+                    openModal("error_modal");
+                    break;
+                default:
+                    break;
+            }
+        </script>
+        <script>
+            document.getElementById("open-mobile-menu").addEventListener("click", () => {
+                document.getElementById("mobile-menu").classList.remove("hidden");
+            });
+            document.getElementById("close-mobile-menu").addEventListener("click", () => {
+                document.getElementById("mobile-menu").classList.add("hidden");
+            });
+        </script>
+    </footer>
+</div>
+</html>
